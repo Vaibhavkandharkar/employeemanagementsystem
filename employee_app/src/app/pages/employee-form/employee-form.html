@@ -1,0 +1,141 @@
+<main class="form-page">
+  <div class="form-container">
+    <header class="page-heading">
+      <div>
+        <a class="back-link" routerLink="/emp-list">
+          <span aria-hidden="true">←</span> Back to Directory
+        </a>
+        <p class="eyebrow">PEOPLE MANAGEMENT</p>
+        <h1>Add New Employee</h1>
+        <p class="page-description">Fill in the employee details to register a new team member.</p>
+      </div>
+    </header>
+
+    <div class="form-card">
+      <form (ngSubmit)="onSave()" #empForm="ngForm">
+        <div class="form-grid">
+          <!-- Full Name -->
+          <div class="form-group">
+            <label for="employeeName">Full Name <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="employeeName" 
+              name="employeeName" 
+              [(ngModel)]="employeeObj.employeeName" 
+              required 
+              placeholder="e.g. John Doe" 
+              class="form-control"
+            />
+          </div>
+
+          <!-- Email Address -->
+          <div class="form-group">
+            <label for="emailId">Email Address <span class="required">*</span></label>
+            <input 
+              type="email" 
+              id="emailId" 
+              name="emailId" 
+              [(ngModel)]="employeeObj.emailId" 
+              required 
+              placeholder="e.g. john.doe@company.com" 
+              class="form-control"
+            />
+          </div>
+
+          <!-- Contact Number -->
+          <div class="form-group">
+            <label for="contactNo">Contact Number <span class="required">*</span></label>
+            <input 
+              type="tel" 
+              id="contactNo" 
+              name="contactNo" 
+              [(ngModel)]="employeeObj.contactNo" 
+              required 
+              placeholder="e.g. 9876543210" 
+              class="form-control"
+            />
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label for="password">Password <span class="required">*</span></label>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              [(ngModel)]="employeeObj.password" 
+              required 
+              placeholder="••••••••" 
+              class="form-control"
+            />
+          </div>
+
+          <!-- Gender -->
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select 
+              id="gender" 
+              name="gender" 
+              [(ngModel)]="employeeObj.gender" 
+              class="form-control select-control"
+            >
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <!-- Role -->
+          <div class="form-group">
+            <label for="role">Role</label>
+            <select 
+              id="role" 
+              name="role" 
+              [(ngModel)]="employeeObj.role" 
+              class="form-control select-control"
+            >
+              <option value="Employee">Employee</option>
+              <option value="HR">HR</option>
+              <option value="Manager">Manager</option>
+              <option value="Admin">Admin</option>
+            </select>
+          </div>
+
+          <!-- Department -->
+          <div class="form-group full-width">
+            <label for="deptId">Department</label>
+            <select 
+              id="deptId" 
+              name="deptId" 
+              [(ngModel)]="employeeObj.deptId" 
+              class="form-control select-control"
+            >
+              <option value="">-- Select Department --</option>
+              @for(dept of childDeptList(); track dept.childDepartmentId) {
+                <option [value]="dept.childDepartmentId">
+                  {{ dept.childDepartmentName }}
+                </option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" routerLink="/emp-list">Cancel</button>
+          <button type="button" class="btn btn-ghost" (click)="onReset()">Reset</button>
+          <button 
+            type="submit" 
+            class="btn btn-primary" 
+            [disabled]="isSubmitting() || !empForm.valid"
+          >
+            @if (isSubmitting()) {
+              <span>Saving...</span>
+            } @else {
+              <span>Save Employee</span>
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>

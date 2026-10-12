@@ -1,0 +1,261 @@
+<div class="master-page">
+  <header class="master-heading">
+    <div>
+      <p class="master-eyebrow">ORGANIZATION STRUCTURE</p>
+      <h2>Department & Team Manager</h2>
+      <p class="master-description">Create, manage, and organize corporate divisions and child departments.</p>
+    </div>
+    <div class="header-action-buttons">
+      <button class="btn btn-outline" type="button" (click)="openAddParent()">
+        <span class="btn-plus">+</span> Add Parent Division
+      </button>
+      <button class="btn btn-primary" type="button" (click)="openAddChild()">
+        <span class="btn-plus">+</span> Add Child Department
+      </button>
+    </div>
+  </header>
+
+  <!-- Filter Status Indicator -->
+  @if (selectedParentDeptId()) {
+  <div class="filter-banner">
+    <span>Filtering child departments by selected division.</span>
+    <button class="clear-filter-btn" (click)="filterSelectedDept(null)">Show All Departments (Clear Filter)</button>
+  </div>
+  }
+
+  <div class="department-grid">
+    <!-- Parent Departments Section -->
+    <section class="department-panel" aria-labelledby="departments-title">
+      <div class="panel-heading">
+        <div class="panel-title-group">
+          <span class="panel-icon parent-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M3 21h18M5 21V7l7-4 7 4v14M9 10h1m4 0h1m-6 4h1m4 0h1m-5 7v-4h3v4" />
+            </svg>
+          </span>
+          <div>
+            <h3 id="departments-title">Parent Divisions</h3>
+            <p>Click division to filter sub-departments</p>
+          </div>
+        </div>
+        <span class="panel-count">{{ parentDeptList().length }} divisions</span>
+      </div>
+
+      <ul class="department-list">
+        @for (item of parentDeptList(); track item.departmentId) {
+        <li 
+          class="department-item" 
+          [class.selected-dept]="selectedParentDeptId() === item.departmentId"
+          (click)="filterSelectedDept(item.departmentId)"
+        >
+          <div class="item-avatar software-avatar" aria-hidden="true">
+            @if (item.departmentLogo || item.departementLogo) {
+              <img 
+                [src]="item.departmentLogo || item.departementLogo" 
+                [alt]="item.departmentName" 
+                class="avatar-img"
+                (error)="$any($event.target).style.display = 'none'"
+              />
+            } @else {
+              <span>{{ (item.departmentName || 'D').slice(0, 1).toUpperCase() }}</span>
+            }
+          </div>
+          <div class="item-content">
+            <div class="item-title-row">
+              <h4>{{ item.departmentName }}</h4>
+            </div>
+            <div class="item-details">
+              <span>Division ID <strong>#{{ item.departmentId }}</strong></span>
+            </div>
+          </div>
+          
+          <div class="item-actions-cluster" (click)="$event.stopPropagation()">
+            <button 
+              class="btn-sub-add" 
+              title="Add child department to this division"
+              (click)="openAddChild(item.departmentId)"
+            >
+              +
+            </button>
+            <button 
+              class="btn-dept-del" 
+              title="Delete division"
+              (click)="onDeleteParent(item.departmentId, item.departmentName)"
+            >
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              </svg>
+            </button>
+          </div>
+        </li>
+        } @empty {
+          <li class="department-empty">No divisions configured.</li>
+        }
+      </ul>
+    </section>
+
+    <!-- Child Departments Section -->
+    <section class="department-panel" aria-labelledby="child-departments-title">
+      <div class="panel-heading">
+        <div class="panel-title-group">
+          <span class="panel-icon child-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 3v5m0 0H6v5m6-5h6v5M6 13v2m0 0H3v5m3-5h3v5m9-7v2m0 0h-3v5m3-5h3v5" />
+            </svg>
+          </span>
+          <div>
+            <h3 id="child-departments-title">Child Departments</h3>
+            <p>Functional operational units</p>
+          </div>
+        </div>  
+        <span class="panel-count">{{ childDeptList().length }} departments</span>
+      </div>
+
+      <ul class="department-list">
+        @for(item of childDeptList(); track item.childDepartmentId) {
+        <li class="department-item">
+          <div class="item-avatar child-avatar" aria-hidden="true">
+            @if (item.childDepartmentLogo || item.childDepartementLogo) {
+              <img 
+                [src]="item.childDepartmentLogo || item.childDepartementLogo" 
+                [alt]="item.childDepartmentName" 
+                class="avatar-img"
+                (error)="$any($event.target).style.display = 'none'"
+              />
+            } @else {
+              <span>{{ (item.childDepartmentName || 'C').slice(0, 1).toUpperCase() }}</span>
+            }
+          </div>
+          <div class="item-content">
+            <div class="item-title-row">
+              <h4>{{ item.childDepartmentName }}</h4>
+              <span class="child-label">Dept #{{ item.childDepartmentId }}</span>
+            </div>
+            <div class="item-details">
+              <span>Parent Division ID <strong>#{{ item.parentDepartmentId }}</strong></span>
+            </div>
+          </div>
+
+          <div class="item-actions-cluster">
+            <button 
+              class="btn-dept-del" 
+              title="Delete department"
+              (click)="onDeleteChild(item.childDepartmentId, item.childDepartmentName)"
+            >
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              </svg>
+            </button>
+          </div>
+        </li>
+        } @empty {
+          <li class="department-empty">No child departments found under this division.</li>
+        }
+      </ul>
+    </section>
+  </div>
+
+  <!-- Modal: Add Parent Division -->
+  @if (isAddParentOpen()) {
+  <div class="modal-backdrop" (click)="closeAddParent()">
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Add Parent Division</h3>
+        <button class="btn-close" (click)="closeAddParent()">✕</button>
+      </div>
+      <form (ngSubmit)="onSaveParentDept()">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="pName">Division Name <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="pName" 
+              name="departmentName" 
+              class="form-control" 
+              [(ngModel)]="parentForm.departmentName" 
+              placeholder="e.g. Operations & Supply" 
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="pLogo">Logo Image URL</label>
+            <input 
+              type="url" 
+              id="pLogo" 
+              name="departmentLogo" 
+              class="form-control" 
+              [(ngModel)]="parentForm.departmentLogo" 
+              placeholder="https://images.unsplash.com/..."
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeAddParent()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="isSaving()">
+            @if (isSaving()) { Saving... } @else { Save Division }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+
+  <!-- Modal: Add Child Department -->
+  @if (isAddChildOpen()) {
+  <div class="modal-backdrop" (click)="closeAddChild()">
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Add Child Department</h3>
+        <button class="btn-close" (click)="closeAddChild()">✕</button>
+      </div>
+      <form (ngSubmit)="onSaveChildDept()">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="cParent">Parent Division <span class="required">*</span></label>
+            <select 
+              id="cParent" 
+              name="parentDepartmentId" 
+              class="form-control" 
+              [(ngModel)]="childForm.parentDepartmentId" 
+              required
+            >
+              @for (p of parentDeptList(); track p.departmentId) {
+                <option [value]="p.departmentId">{{ p.departmentName }} (#{{ p.departmentId }})</option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="cName">Child Department Name <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="cName" 
+              name="childDepartmentName" 
+              class="form-control" 
+              [(ngModel)]="childForm.childDepartmentName" 
+              placeholder="e.g. Logistics & Inventory" 
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="cLogo">Logo Image URL</label>
+            <input 
+              type="url" 
+              id="cLogo" 
+              name="childDepartmentLogo" 
+              class="form-control" 
+              [(ngModel)]="childForm.childDepartmentLogo" 
+              placeholder="https://images.unsplash.com/..."
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeAddChild()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="isSaving()">
+            @if (isSaving()) { Saving... } @else { Save Department }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+</div>

@@ -1,0 +1,300 @@
+<style>
+  .login-page {
+    min-height: 100vh;
+    min-height: 100svh;
+    background: #f3f6fb;
+    color: #18243a;
+    font-family: Inter, "Segoe UI", sans-serif;
+  }
+
+  .login-shell {
+    max-width: 1120px;
+    min-height: min(600px, calc(100svh - 32px));
+    overflow: hidden;
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: 0 18px 54px rgb(24 36 58 / 12%);
+    animation: login-enter 700ms ease-out both;
+  }
+
+  .login-brand-panel {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(145deg, #142b4a 0%, #174e69 55%, #168b8c 100%);
+    color: #fff;
+  }
+
+  .login-brand-panel::before,
+  .login-brand-panel::after {
+    position: absolute;
+    border: 1px solid rgb(255 255 255 / 14%);
+    border-radius: 50%;
+    content: "";
+    pointer-events: none;
+  }
+
+  .login-brand-panel::before {
+    top: -150px;
+    right: -130px;
+    width: 410px;
+    height: 410px;
+    animation: float 9s ease-in-out infinite;
+  }
+
+  .login-brand-panel::after {
+    right: -75px;
+    bottom: -235px;
+    width: 500px;
+    height: 500px;
+    background: rgb(255 255 255 / 4%);
+    animation: float 11s ease-in-out infinite reverse;
+  }
+
+  .login-brand-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .brand-mark {
+    display: inline-grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border: 1px solid rgb(255 255 255 / 30%);
+    border-radius: 14px;
+    background: rgb(255 255 255 / 12%);
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .login-form-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .login-form-content {
+    width: min(100%, 410px);
+    animation: form-enter 800ms 120ms ease-out both;
+  }
+
+  .login-form-panel {
+    padding: 2rem !important;
+  }
+
+  .login-brand-panel {
+    padding: 2rem !important;
+  }
+
+  .login-brand-content .brand-mark {
+    margin-bottom: 1rem !important;
+  }
+
+  .login-brand-content .mt-5 {
+    margin-top: 1.5rem !important;
+  }
+
+  .login-form-content > div:first-child {
+    margin-bottom: 1.25rem !important;
+  }
+
+  .form-control {
+    min-height: 46px;
+    border-color: #dce3ed;
+    border-radius: 12px;
+    background-color: #fbfcfe;
+  }
+
+  .form-control:focus {
+    border-color: #168b8c;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgb(22 139 140 / 12%);
+  }
+
+  .login-button {
+    min-height: 46px;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(100deg, #167f88, #20a59a);
+    box-shadow: 0 10px 22px rgb(22 139 140 / 22%);
+    transition: transform 180ms ease, box-shadow 180ms ease;
+  }
+
+  .login-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 26px rgb(22 139 140 / 30%);
+  }
+
+  .login-link {
+    color: #168b8c;
+    text-decoration: none;
+  }
+
+  .login-link:hover {
+    color: #116d74;
+    text-decoration: underline;
+  }
+
+  @keyframes login-enter {
+    from { opacity: 0; transform: translateY(16px) scale(.99); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @keyframes form-enter {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-16px); }
+  }
+
+  @media (max-width: 767.98px) {
+    .login-shell {
+      min-height: 0;
+      border-radius: 22px;
+    }
+
+    .login-brand-panel {
+      min-height: 145px;
+    }
+
+    .login-form-panel {
+      padding: 1.5rem 1.25rem !important;
+    }
+
+    .login-brand-panel {
+      padding: 1.25rem !important;
+    }
+
+    .login-brand-content h1 {
+      font-size: 1.5rem;
+      margin-bottom: .5rem !important;
+    }
+
+    .login-brand-content > p:not(.text-uppercase) {
+      font-size: .9rem;
+    }
+
+    .login-brand-content .mt-5 {
+      display: none;
+    }
+
+    .login-form-content > div:first-child {
+      margin-bottom: 1rem !important;
+    }
+
+    .login-form-content h2 {
+      font-size: 1.35rem;
+    }
+  }
+
+  @media (max-height: 700px) and (min-width: 768px) {
+    .login-page {
+      padding-top: .5rem !important;
+      padding-bottom: .5rem !important;
+    }
+
+    .login-shell {
+      min-height: 0;
+    }
+
+    .login-form-panel,
+    .login-brand-panel {
+      padding: 1.25rem !important;
+    }
+
+    .login-brand-content .mt-5 {
+      margin-top: .75rem !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: .01ms !important;
+    }
+  }
+</style>
+
+<main class="login-page d-flex align-items-center justify-content-center p-2 p-md-3">
+  <section class="login-shell row g-0 w-100" aria-label="Employee management sign in">
+    <div class="login-brand-panel col-md-5 d-flex align-items-end p-4 p-lg-5">
+      <div class="login-brand-content pb-md-3">
+        <div class="brand-mark mb-4" aria-hidden="true">E</div>
+        <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: .16em; color: #b8e5df;">
+          Employee workspace
+        </p>
+        <h1 class="display-6 fw-bold mb-3">Great teams start here.</h1>
+        <p class="mb-0 text-white-50">
+          Sign in to manage your people, discover insights, and keep your team moving forward.
+        </p>
+        <div class="mt-5 pt-3 small text-white-50">A simpler way to work, together.</div>
+      </div>
+    </div>
+
+    <div class="login-form-panel col-md-7 p-4 p-lg-5">
+      <div class="login-form-content">
+        <div class="mb-4">
+          <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing: .12em; color: #168b8c;">
+            Welcome back
+          </p>
+          <h2 class="h2 fw-bold mb-2">Sign in to your account</h2>
+          <p class="text-secondary mb-0">Enter your details to continue to your workspace.</p>
+        </div>
+
+        <form>
+          <div class="mb-3">
+            <label for="email" class="form-label fw-semibold">Email address</label>
+            <input
+              id="email"
+              [(ngModel)]="loginObj.username"
+              name="username "
+              type="email"
+              class="form-control px-3"
+              placeholder="you@company.com"
+              autocomplete="username"
+              required
+            >
+          </div>
+
+          <div class="mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <label for="password" class="form-label fw-semibold mb-0">Password</label>
+              <a class="login-link small fw-semibold" href="#">Forgot password?</a>
+            </div>
+            <input
+              id="password"
+              name="password"
+              [(ngModel)]="loginObj.password"
+              type="password"
+              class="form-control px-3"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            >
+          </div>
+
+          <div class="form-check mb-4">
+            <input id="remember-me" class="form-check-input" type="checkbox">
+            <label class="form-check-label text-secondary" for="remember-me">Remember me</label>
+          </div>
+
+          <button class="login-button btn btn-primary w-100 fw-semibold" (click)="onLogin()" type="submit">
+            Sign in
+            <span class="ms-2" aria-hidden="true">&rarr;</span>
+          </button>
+        </form>
+
+        <p class="text-center text-secondary small mt-4 mb-0">
+          Need access? <a class="login-link fw-semibold" href="#">Contact your administrator</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</main>

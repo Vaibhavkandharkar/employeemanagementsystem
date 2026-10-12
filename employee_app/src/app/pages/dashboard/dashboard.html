@@ -1,0 +1,220 @@
+<div class="dashboard-page">
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div>
+      <p class="eyebrow">WORKFORCE INSIGHTS</p>
+      <h1>Executive Dashboard</h1>
+      <p class="dashboard-description">Overview of organizational headcount, departments, and team distribution.</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-outline" type="button" (click)="loadData()" title="Refresh metrics">
+        <svg viewBox="0 0 24 24" class="btn-icon" aria-hidden="true">
+          <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Refresh
+      </button>
+      <button class="btn btn-primary" type="button" routerLink="/emp-form">
+        <span class="plus-icon">+</span> Add Employee
+      </button>
+    </div>
+  </header>
+
+  <!-- KPI Metrics Grid -->
+  <section class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-icon-wrapper kpi-blue">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </div>
+      <div class="kpi-info">
+        <span class="kpi-label">Total Workforce</span>
+        <div class="kpi-value-row">
+          <span class="kpi-value">{{ totalEmployees() }}</span>
+          <span class="badge badge-success">Active</span>
+        </div>
+        <span class="kpi-caption">Full-time registered personnel</span>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon-wrapper kpi-teal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 21h18M5 21V7l7-4 7 4v14M9 10h1m4 0h1m-6 4h1m4 0h1m-5 7v-4h3v4"/>
+        </svg>
+      </div>
+      <div class="kpi-info">
+        <span class="kpi-label">Departments</span>
+        <div class="kpi-value-row">
+          <span class="kpi-value">{{ totalChildDepts() }}</span>
+          <span class="badge badge-info">{{ totalParentDepts() }} divisions</span>
+        </div>
+        <span class="kpi-caption">Functional operational units</span>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon-wrapper kpi-purple">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+      </div>
+      <div class="kpi-info">
+        <span class="kpi-label">Admins & HRs</span>
+        <div class="kpi-value-row">
+          <span class="kpi-value">{{ adminCount() + hrCount() }}</span>
+          <span class="badge badge-purple">{{ adminCount() }} Admin / {{ hrCount() }} HR</span>
+        </div>
+        <span class="kpi-caption">Management & administrative staff</span>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon-wrapper kpi-amber">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 6v6l4 2"/>
+        </svg>
+      </div>
+      <div class="kpi-info">
+        <span class="kpi-label">Direct Employees</span>
+        <div class="kpi-value-row">
+          <span class="kpi-value">{{ staffCount() }}</span>
+          <span class="badge badge-amber">Production</span>
+        </div>
+        <span class="kpi-caption">Engineering, Sales & Operations</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Two-Column Analytics Section -->
+  <div class="analytics-layout">
+    <!-- Left Column: Distribution Breakdown -->
+    <section class="card analytics-card">
+      <div class="card-header">
+        <div>
+          <h3>Workforce Distribution</h3>
+          <p class="card-caption">Breakdown by roles and gender</p>
+        </div>
+      </div>
+
+      <div class="distribution-group">
+        <div class="dist-header">
+          <span>Roles Breakdown</span>
+          <span class="dist-sub">{{ totalEmployees() }} total</span>
+        </div>
+        <div class="progress-stacked">
+          <div 
+            class="progress-seg seg-purple" 
+            [style.width.%]="totalEmployees() > 0 ? (adminCount() / totalEmployees()) * 100 : 0"
+            [title]="'Admins: ' + adminCount()"
+          ></div>
+          <div 
+            class="progress-seg seg-teal" 
+            [style.width.%]="totalEmployees() > 0 ? (hrCount() / totalEmployees()) * 100 : 0"
+            [title]="'HR: ' + hrCount()"
+          ></div>
+          <div 
+            class="progress-seg seg-blue" 
+            [style.width.%]="totalEmployees() > 0 ? (staffCount() / totalEmployees()) * 100 : 0"
+            [title]="'Employees: ' + staffCount()"
+          ></div>
+        </div>
+        <div class="legend-row">
+          <span class="legend-item"><span class="dot dot-purple"></span> Admins ({{ adminCount() }})</span>
+          <span class="legend-item"><span class="dot dot-teal"></span> HR ({{ hrCount() }})</span>
+          <span class="legend-item"><span class="dot dot-blue"></span> Staff ({{ staffCount() }})</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="distribution-group">
+        <div class="dist-header">
+          <span>Gender Diversity</span>
+          <span class="dist-sub">{{ maleCount() }} M / {{ femaleCount() }} F</span>
+        </div>
+        <div class="progress-stacked">
+          <div 
+            class="progress-seg seg-blue" 
+            [style.width.%]="totalEmployees() > 0 ? (maleCount() / totalEmployees()) * 100 : 50"
+            [title]="'Male: ' + maleCount()"
+          ></div>
+          <div 
+            class="progress-seg seg-pink" 
+            [style.width.%]="totalEmployees() > 0 ? (femaleCount() / totalEmployees()) * 100 : 50"
+            [title]="'Female: ' + femaleCount()"
+          ></div>
+        </div>
+        <div class="legend-row">
+          <span class="legend-item"><span class="dot dot-blue"></span> Male ({{ maleCount() }})</span>
+          <span class="legend-item"><span class="dot dot-pink"></span> Female ({{ femaleCount() }})</span>
+          <span class="legend-item"><span class="dot dot-gray"></span> Other ({{ totalEmployees() - (maleCount() + femaleCount()) }})</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="quick-links">
+        <a routerLink="/emp-list" class="quick-link-btn">
+          <span>View All Employees Directory →</span>
+        </a>
+        <a routerLink="/master" class="quick-link-btn">
+          <span>Explore Department Structure →</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Right Column: Recent Hires Table -->
+    <section class="card recent-card">
+      <div class="card-header">
+        <div>
+          <h3>Recent Team Additions</h3>
+          <p class="card-caption">Latest registered employees in the system</p>
+        </div>
+        <a routerLink="/emp-list" class="header-link">View all</a>
+      </div>
+
+      <div class="table-container">
+        <table class="recent-table">
+          <thead>
+            <tr>
+              <th scope="col">Employee</th>
+              <th scope="col">Role</th>
+              <th scope="col">Department</th>
+              <th scope="col">Joined</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (emp of recentEmployees(); track emp.employeeId) {
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <div class="table-avatar">{{ (emp.employeeName || 'EM').slice(0, 2).toUpperCase() }}</div>
+                  <div>
+                    <span class="emp-name">{{ emp.employeeName }}</span>
+                    <span class="emp-email">{{ emp.emailId || emp.emaiId }}</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="role-tag">{{ emp.role }}</span>
+              </td>
+              <td>
+                <span class="dept-text">{{ getDepartmentName(emp.deptId) }}</span>
+              </td>
+              <td class="date-cell">
+                {{ emp.createdDate | date:'mediumDate' }}
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="4" class="empty-cell">No employees found.</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>

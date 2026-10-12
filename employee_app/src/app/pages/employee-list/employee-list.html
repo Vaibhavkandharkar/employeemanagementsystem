@@ -1,0 +1,100 @@
+<main class="employee-page">
+  <header class="page-heading">
+    <div>
+      <p class="eyebrow">PEOPLE MANAGEMENT</p>
+      <h1>Employees</h1>
+      <p class="page-description">View, search, and export your organization's employee directory.</p>
+    </div>
+    <div class="header-actions">
+      <button class="export-button" type="button" (click)="exportToCsv()" title="Export employee report as CSV">
+        <svg viewBox="0 0 24 24" class="btn-icon" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Export CSV
+      </button>
+      <button class="add-button" type="button" routerLink="/emp-form">
+        <span aria-hidden="true">+</span>
+        Add employee
+      </button>
+    </div>
+  </header>
+
+  <section class="directory-card" aria-labelledby="directory-title">
+    <div class="directory-toolbar">
+      <div>
+        <h2 id="directory-title">Employee directory</h2>
+        <p class="record-count">{{filteredEmpList().length}} employee(s)</p>
+      </div>
+      <label class="search-box">
+        <span class="search-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Search employees</span>
+        <input 
+          type="search" 
+          placeholder="Search employees by name, email, role..." 
+          [ngModel]="searchTerm()"
+          (ngModelChange)="onSearchChange($event)"
+        />
+      </label>
+    </div>
+
+    <div class="table-scroll">
+      <table class="employee-table">
+        <thead>
+          <tr>
+            <th scope="col">Employee ID</th>
+            <th scope="col">Employee name</th>
+            <th scope="col">Employee no.</th>
+            <th scope="col">Email address</th>
+            <th scope="col">Department ID</th>
+            <th scope="col">Password</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Role</th>
+            <th scope="col">Created date</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (emp of filteredEmpList(); track emp.employeeId) {
+          <tr>
+            <td class="id-cell">#{{emp.employeeId}}</td>
+            <td>
+              <div class="employee-name">
+                <span class="avatar" aria-hidden="true">{{(emp.employeeName || 'EM').slice(0, 2).toUpperCase()}}</span>
+                <span>{{emp.employeeName}}</span>
+              </div>
+            </td>
+            <td>{{emp.contactNo}}</td>
+            <td><a class="email-link" [href]="'mailto:' + (emp.emailId || emp.emaiId)">{{emp.emailId || emp.emaiId}}</a></td>
+            <td>{{emp.deptId || '-'}}</td>
+            <td><span class="masked-password" aria-label="Password hidden">••••••••</span></td>
+            <td>{{emp.gender}}</td>
+            <td><span class="role-badge">{{emp.role}}</span></td>
+            <td>{{emp.createdDate | date:'mediumDate'}}</td>
+            <td>
+              <div class="row-actions">
+                <button 
+                  class="delete-btn" 
+                  type="button" 
+                  (click)="onDelete(emp.employeeId, emp.employeeName)" 
+                  title="Delete employee"
+                >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/>
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="10" style="text-align: center; padding: 2.5rem; color: #778198;">
+              No employees found matching your search.
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <footer class="table-footer">Showing <strong>{{filteredEmpList().length}}</strong> of <strong>{{empList().length}}</strong> employee(s)</footer>
+  </section>
+</main>
