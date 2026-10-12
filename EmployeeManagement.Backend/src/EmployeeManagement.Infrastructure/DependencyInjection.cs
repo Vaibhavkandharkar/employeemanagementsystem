@@ -16,7 +16,6 @@ public static class DependencyInjection
 
         services.AddDbContext<ApplicationDbContext>(options =>
         {
-            // Connect to MySQL using Pomelo provider
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), mySqlOptions =>
             {
                 mySqlOptions.EnableRetryOnFailure(
@@ -26,7 +25,6 @@ public static class DependencyInjection
             });
         });
 
-        // Register repositories
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IDepartmentRepository, DepartmentRepository>();

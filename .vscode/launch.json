@@ -1,0 +1,32 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    
+    {
+      "name": ".NET Core Launch (web)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/EmployeeManagement.Backend/src/EmployeeManagement.API/bin/Debug/net8.0/EmployeeManagement.API.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/EmployeeManagement.Backend/src/EmployeeManagement.API",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+        "uriFormat": "%s/swagger"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "sourceFileMap": {
+        "/views": "${workspaceFolder}/Views"
+      }
+    },
+    {
+      "name": ".NET Core Attach to Process",
+      "type": "coreclr",
+      "request": "attach"
+    }
+  ]
+}

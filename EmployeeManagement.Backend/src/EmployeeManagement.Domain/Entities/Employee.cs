@@ -11,6 +11,5 @@ public class Employee : BaseEntity
     public string Role { get; set; } = "Employee"; // Admin, HR, Employee
     public int? DeptId { get; set; }
 
-    // Navigation property
     public ChildDepartment? Department { get; set; }
 }

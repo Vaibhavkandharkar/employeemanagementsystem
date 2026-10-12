@@ -13,7 +13,6 @@ public class ChildDepartmentDto
     [JsonPropertyName("childDepartmentLogo")]
     public string ChildDepartmentLogo { get; set; } = string.Empty;
 
-    // Backward-compatibility alias for Angular spelling "childDepartementLogo"
     [JsonPropertyName("childDepartementLogo")]
     public string ChildDepartementLogo => ChildDepartmentLogo;
 

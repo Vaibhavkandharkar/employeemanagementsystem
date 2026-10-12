@@ -95,7 +95,6 @@ public class EmployeeController : ControllerBase
         var employees = result.Data ?? Enumerable.Empty<EmployeeDto>();
 
         var builder = new System.Text.StringBuilder();
-        // Header
         builder.AppendLine("Employee ID,Employee Name,Email Address,Contact Number,Department ID,Role,Gender,Created Date");
 
         foreach (var emp in employees)

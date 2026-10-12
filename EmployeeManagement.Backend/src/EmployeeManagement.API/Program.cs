@@ -5,7 +5,6 @@ using EmployeeManagement.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Add Services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -18,7 +17,6 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// 2. Configure CORS for Angular Frontend
 var corsPolicy = "AllowAngularApp";
 var allowedOrigins = builder.Configuration.GetSection("CorsOrigins").Get<string[]>() 
                      ?? new[] { "http://localhost:4200", "http://127.0.0.1:4200" };
@@ -34,13 +32,11 @@ builder.Services.AddCors(options =>
     });
 });
 
-// 3. Register Application & Infrastructure Clean Architecture Layers
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
-// 4. Automatic Database & Seed Initialization
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -56,7 +52,6 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// 5. Middleware Pipeline
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 if (app.Environment.IsDevelopment())

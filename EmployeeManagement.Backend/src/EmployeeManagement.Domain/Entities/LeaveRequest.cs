@@ -12,6 +12,5 @@ public class LeaveRequest : BaseEntity
     public string Reason { get; set; } = string.Empty;
     public string Status { get; set; } = "Pending"; // Pending, Approved, Rejected
 
-    // Navigation property
     public Employee? Employee { get; set; }
 }

@@ -31,7 +31,6 @@ export class Leaves implements OnInit {
     reason: ''
   };
 
-  // Metrics
   pendingCount = computed(() => this.leaves().filter(l => l.status === 'Pending').length);
   approvedCount = computed(() => this.leaves().filter(l => l.status === 'Approved').length);
   rejectedCount = computed(() => this.leaves().filter(l => l.status === 'Rejected').length);
@@ -52,7 +51,6 @@ export class Leaves implements OnInit {
     this.loadLeaves();
     this.loadEmployees();
 
-    // Default dates to today & tomorrow
     const today = new Date().toISOString().slice(0, 10);
     this.leaveFormObj.startDate = today;
     this.leaveFormObj.endDate = today;

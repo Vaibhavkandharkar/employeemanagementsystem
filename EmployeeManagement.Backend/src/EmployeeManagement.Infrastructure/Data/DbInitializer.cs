@@ -10,7 +10,6 @@ public static class DbInitializer
     {
         try
         {
-            // Ensure database is created
             await context.Database.EnsureCreatedAsync();
 
             if (!await context.ParentDepartments.AnyAsync())

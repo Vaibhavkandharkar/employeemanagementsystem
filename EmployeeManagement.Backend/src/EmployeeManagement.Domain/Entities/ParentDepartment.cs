@@ -6,6 +6,5 @@ public class ParentDepartment : BaseEntity
     public string DepartmentName { get; set; } = string.Empty;
     public string DepartmentLogo { get; set; } = string.Empty;
 
-    // Navigation property
     public ICollection<ChildDepartment> ChildDepartments { get; set; } = new List<ChildDepartment>();
 }

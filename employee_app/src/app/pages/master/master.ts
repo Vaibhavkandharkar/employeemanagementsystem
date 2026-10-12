@@ -68,7 +68,6 @@ export class Master implements OnInit {
 
   filterSelectedDept(pdId: number | null) {
     if (this.selectedParentDeptId() === pdId && pdId !== null) {
-      // Toggle off filter if clicked again
       this.selectedParentDeptId.set(null);
       this.childDeptList.set(this.originalChildList);
       return;

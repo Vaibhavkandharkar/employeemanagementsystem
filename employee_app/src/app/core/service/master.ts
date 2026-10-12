@@ -41,5 +41,4 @@ export class MasterService {
     }
 }
 
-// Backward-compatibility export
 export { MasterService as Master };

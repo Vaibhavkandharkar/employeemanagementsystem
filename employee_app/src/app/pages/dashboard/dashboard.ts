@@ -21,7 +21,6 @@ export class Dashboard implements OnInit {
   childDepts = signal<IChildDeptModel[]>([]);
   isLoading = signal<boolean>(true);
 
-  // Computed metrics
   totalEmployees = computed(() => this.employees().length);
   totalParentDepts = computed(() => this.parentDepts().length);
   totalChildDepts = computed(() => this.childDepts().length);
@@ -49,7 +48,6 @@ export class Dashboard implements OnInit {
     this.employees().filter(e => (e.gender || '').toLowerCase() === 'female').length
   );
 
-  // Recent 5 employees
   recentEmployees = computed(() => {
     return [...this.employees()]
       .reverse()
@@ -63,7 +61,6 @@ export class Dashboard implements OnInit {
   loadData() {
     this.isLoading.set(true);
 
-    // Fetch employees
     this.employeeService.getAllEmployee().subscribe({
       next: (res: API_response) => {
         this.employees.set(res.data || []);
@@ -72,14 +69,12 @@ export class Dashboard implements OnInit {
       error: () => this.isLoading.set(false)
     });
 
-    // Fetch parent departments
     this.masterService.getAllParentDept().subscribe({
       next: (res: API_response) => {
         this.parentDepts.set(res.data || []);
       }
     });
 
-    // Fetch child departments
     this.masterService.getChildDept().subscribe({
       next: (res: API_response) => {
         this.childDepts.set(res.data || []);

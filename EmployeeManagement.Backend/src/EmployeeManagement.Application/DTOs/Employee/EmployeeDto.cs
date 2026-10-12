@@ -16,7 +16,6 @@ public class EmployeeDto
     [JsonPropertyName("emailId")]
     public string EmailId { get; set; } = string.Empty;
 
-    // Backward-compatibility alias for Angular typo "emaiId"
     [JsonPropertyName("emaiId")]
     public string EmaiId => EmailId;
 

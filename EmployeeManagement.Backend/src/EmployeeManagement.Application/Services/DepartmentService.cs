@@ -103,6 +103,18 @@ public class DepartmentService : IDepartmentService
 
     public async Task<ApiResponse<bool>> DeleteParentDepartmentAsync(int id)
     {
+        var parent = await _departmentRepository.GetParentDepartmentByIdAsync(id);
+        if (parent == null)
+        {
+            return ApiResponse<bool>.Failure($"Parent Department with ID {id} not found.", false);
+        }
+        
+        var childDepts = await _departmentRepository.GetChildDepartmentsByParentIdAsync(id);
+        if (childDepts != null && childDepts.Any())
+        {
+            return ApiResponse<bool>.Failure("Cannot delete parent department because it has child departments assigned to it.", false);
+        }
+
         await _departmentRepository.DeleteParentDepartmentAsync(id);
         return ApiResponse<bool>.Success(true, "Parent department removed successfully");
     }

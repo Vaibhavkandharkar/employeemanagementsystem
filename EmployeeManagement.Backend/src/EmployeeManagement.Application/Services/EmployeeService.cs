@@ -96,13 +96,15 @@ public class EmployeeService : IEmployeeService
     public async Task<ApiResponse<bool>> DeleteEmployeeAsync(int id)
     {
         var employee = await _employeeRepository.GetByIdAsync(id);
+
         if (employee == null)
         {
             return ApiResponse<bool>.Failure($"Employee with ID {id} not found", false);
         }
 
+        string empName = employee.EmployeeName;
         await _employeeRepository.DeleteAsync(employee);
-        return ApiResponse<bool>.Success(true, "Employee deleted successfully");
+        return ApiResponse<bool>.Success(true, $"Employee {empName} deleted successfully");
     }
 
     public async Task<ApiResponse<IEnumerable<EmployeeDto>>> SearchEmployeesAsync(string? searchTerm)

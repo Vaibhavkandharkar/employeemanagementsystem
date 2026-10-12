@@ -15,7 +15,7 @@
     </div>
   </header>
 
-  <!-- Filter Status Indicator -->
+  
   @if (selectedParentDeptId()) {
   <div class="filter-banner">
     <span>Filtering child departments by selected division.</span>
@@ -24,7 +24,7 @@
   }
 
   <div class="department-grid">
-    <!-- Parent Departments Section -->
+    
     <section class="department-panel" aria-labelledby="departments-title">
       <div class="panel-heading">
         <div class="panel-title-group">
@@ -94,7 +94,7 @@
       </ul>
     </section>
 
-    <!-- Child Departments Section -->
+    
     <section class="department-panel" aria-labelledby="child-departments-title">
       <div class="panel-heading">
         <div class="panel-title-group">
@@ -155,7 +155,7 @@
     </section>
   </div>
 
-  <!-- Modal: Add Parent Division -->
+  
   @if (isAddParentOpen()) {
   <div class="modal-backdrop" (click)="closeAddParent()">
     <div class="modal-dialog" (click)="$event.stopPropagation()">
@@ -200,7 +200,7 @@
   </div>
   }
 
-  <!-- Modal: Add Child Department -->
+  
   @if (isAddChildOpen()) {
   <div class="modal-backdrop" (click)="closeAddChild()">
     <div class="modal-dialog" (click)="$event.stopPropagation()">
